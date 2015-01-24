@@ -1,0 +1,21 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+
+.nav-pills.nav-sub > li.active > a,
+.nav-pills.nav-sub > li.active > a:hover,
+.nav-pills.nav-sub > li.active > a:focus {
+  color: #31708f;
+  background-color: #d9edf7;
+}
+
+.btn.month-select {
+	position: relative;
+	top: 2px;
+	left: -5px;
+}

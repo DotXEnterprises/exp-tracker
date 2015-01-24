@@ -1,0 +1,40 @@
+<!-- Begin expense add form -->
+<form name="expenseForm" ng-submit="expenseCtrl.addExpense(tracker)">
+	<!-- Expense Form -->
+	<h4>New Expense to Add:</h4>
+	<div class="col-sm-3">
+		<fieldset class="form-group">
+			<label>Required Fields</label>
+			<select ng-model="expenseCtrl.expense.transactionType" class="form-control" ng-options="transactionType for transactionType in ['credit card', 'cash', 'bank transfer']" title="Transaction Type">
+				<option value>Select the Transaction Type</option>
+			</select>
+		</fieldset>
+		<fieldset class="form-group">
+			<input ng-model="expenseCtrl.expense.dateIncurred" type="date" class="form-control" placeholder="Date Incurred" title="Date Incurred" value="expenseCtrl.today" />
+		</fieldset>
+		<fieldset class="form-group">
+			<input ng-model="expenseCtrl.expense.amount" type="text" class="form-control" placeholder="Amount" title="Amount" />
+		</fieldset>
+		<fieldset class="form-group">
+			<input ng-model="expenseCtrl.expense.paidTo" type="text" class="form-control" placeholder="Paid To" title="PaidTo" />
+		</fieldset>
+	</div>
+	<div class="col-sm-3">
+		<fieldset class="form-group">
+			<label>Recommended Fields</label>
+			<select ng-model="expenseCtrl.expense.importance" class="form-control" ng-options="importance for importance in ['Critical','High','Medium','Low']" title="Importance">
+				<option value>Select the Expense Importance</option>
+			</select>
+		</fieldset>
+		<fieldset class="form-group">
+			<input ng-model="expenseCtrl.expense.tagsInput" class="form-control" placeholder="Tags - Seperated by Spaces" title="Tags" />
+		</fieldset>
+		<fieldset class="form-group"> 					
+			<textarea ng-model="expenseCtrl.expense.memo" class="form-control" placeholder="Expense Memo Area..." title="Memo">
+			</textarea>
+		</fieldset>
+		<fieldset class=form-group>
+			<input type="submit" class="btn btn-primary pull-right" value="Submit Expense" />
+		</fieldset>
+	</div>
+</form>
