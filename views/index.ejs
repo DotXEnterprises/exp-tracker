@@ -89,16 +89,16 @@
 							<div class="panel-body">
 								<h4>Expenses for Selected Tags: {{tags.expenseListTotal | currency}}</h4>
 							</div>
-							<table class="table">
+							<table class="table" ts-wrapper>
 								<tr>
-									<th>Date</th>
-									<th>Paid To</th>
-									<th>Importance</th>
-									<th>Transaction Type</th>
-									<th>Amount</th>
+									<th ts-criteria="dateIncurred">Date</th>
+									<th ts-criteria="paidTo|lowercase">Paid To</th>
+									<th ts-criteria="importance|parseImportance" ts-default="descending">Importance</th>
+									<th ts-criteria="transactionType|lowercase">Transaction Type</th>
+									<th ts-criteria="amount|parseFloat">Amount</th>
 									<th>View Detail</th>
 								</tr>
-								<tr ng-repeat="expense in tags.expenseList | orderBy: '-importance'">
+								<tr ng-repeat="expense in tags.expenseList track by expense._id" ts-repeat>
 									<td>{{expense.dateIncurred | date}}</td>
 									<td>{{expense.paidTo}}</td>
 									<td>{{expense.importance}}</td>
@@ -118,5 +118,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <!-- Latest compiled and minified JavaScript -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script> 
+	<script type="text/javascript" src="javascripts/angular-tablesort.js"></script>
   </body> <!-- ./body -->
 </html> <!-- ./html -->

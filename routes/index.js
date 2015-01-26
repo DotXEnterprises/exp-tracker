@@ -6,7 +6,7 @@ var moment = require('moment')
 
 /* GET home page. */
 router.get('/', function(req, res) {
-  res.render('index', { title: 'ExpTracker' });
+  res.render('index', { title: 'Expense Tracker' });
 });
 
 /* GET /expenses */

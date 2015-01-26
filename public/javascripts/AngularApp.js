@@ -1,5 +1,5 @@
 (function () {
-	var app = angular.module('expTracker', ['angularMoment']);
+	var app = angular.module('expTracker', ['angularMoment', 'tableSort']);
 	var tracker = {};
 
 	app.controller('TrackerController', ['$http', '$log', function ($http,$log) {
@@ -151,9 +151,9 @@
 
 								$log.log(expenses._id + ' : ' + safeToAdd);
 								if (safeToAdd) {
-										tags.expenseList.push(expenses);
-										tags.expenseListTotal += expenses.amount;
-									};
+									tags.expenseList.push(expenses);
+									tags.expenseListTotal += expenses.amount;
+								};
 							};
 						});
 					};
