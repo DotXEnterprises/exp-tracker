@@ -11,9 +11,9 @@
 	<script type="text/javascript" src="/javascripts/angular-moment.js"></script>
   </head>
   <body class="container" ng-controller="TrackerController as tracker">
-  	<header>
+  	<header class="page-header">
 	    <h1 class="text-center"><%= title %></h1>
-		<p class="text-center">Welcome to <%= title %></p>
+		<!-- <p class="text-center">Welcome to <%= title %></p> -->
   	</header>
   		
   	<div ng-controller="TabController as tab">
@@ -42,137 +42,74 @@
   		<!-- Review Expenses Tab -->
   		<div ng-show="tab.isSet(2)">
   			<div ng-controller="ReviewTabController as reviewTab">
-  				<ul class="nav nav-pills nav-sub nav-justified">
+  				<ul class="nav nav-pills nav-sub">
   					<li ng-class="{ active:reviewTab.isSet(1) }">
-  						<a href="" ng-click="reviewTab.setTab(1)">Monthly Expense View</a>
+  						<a href="" ng-click="reviewTab.setTab(1)">Monthly Expense Detail</a>
   					</li>
-  					<li ng-class="{ active:reviewTab.isSet(2) }" class="disabled">
-  						<a href="" ng-click="">Tagged Expense View</a>
+  					<li ng-class="{ active:reviewTab.isSet(2) }">
+  						<a href="" ng-click="reviewTab.setTab(2)">Tagged Expense View</a>
   					</li>
   					<!-- Add more review tabs here -->
   					<!-- <li ng-class="{ activate:reviewTab.isSet(3) }">
   						<a href="" ng-click="reviewTab.setTab(3)">Yet Another Tab</a>
   					</li> -->
   				</ul> <!-- ./nav -->
-  				<!-- <br> -->
-  				<!-- Monthly Expense View -->
-				
-  				<!-- Split button -->
-  				<div ng-controller="MonthlyExpenseController as monthlyExp">
-					<div class="btn-group pull-right" ng-show="reviewTab.isSet(1)">
-						<button type="button" class="btn btn-primary month-select" ng-click="monthlyExp.refresh()">Refresh</button>
-						<button type="button" class="btn btn-primary dropdown-toggle month-select" data-toggle="dropdown" aria-expanded="false">
-							<span class="caret"></span>
-							<span class="sr-only">Toggle Dropdown</span>
-						</button>
-						<ul class="dropdown-menu" role="menu">
-							<li><a href="" ng-click="monthlyExp.refresh()">Refresh</a></li>
-							<li class="divider"></li>
-							<li><a href="" ng-click="monthlyExp.loadMonth('Current')">Current Month</a></li>
-							<li><a href="" ng-click="monthlyExp.loadMonth('Prior')">Prior Month</a></li>
-						</ul>
+
+  				<div ng-controller="TagsController as tags">
+	  				<monthly-expense-detail></monthly-expense-detail>
+
+	  				<div class="btn-group-vertical col-xs-2" role="group" data-toggle="buttons" ng-show="reviewTab.isSet(2)">
+	  					<label ng-repeat="tag in tags.tagList" class="btn btn-info" ng-class="{ active:tag.activeTag }" ng-click="tags.setStatus(tag.name, true)">
+	  						<input type="checkbox" autocomplete="off" ng-model="tag.status" > {{tag.name}}
+	  					</label>
+	  				</div>
+	  				<div class="col-xs-10">
+
+	  				<!-- Set up the panel below to show important expense info -->
+
+		  				<!-- Split button
+						<div class="btn-group pull-right" ng-show="reviewTab.isSet(2)">
+							<button type="button" class="btn btn-primary month-select" ng-click="monthlyExp.refresh()">Refresh</button>
+							<button type="button" class="btn btn-primary dropdown-toggle month-select" data-toggle="dropdown" aria-expanded="false">
+								<span class="caret"></span>
+								<span class="sr-only">Toggle Dropdown</span>
+							</button>
+							<ul class="dropdown-menu" role="menu">
+								<li><a href="" ng-click="monthlyExp.refresh()">Refresh</a></li>
+								<li class="divider"></li>
+								<li><a href="" ng-click="monthlyExp.loadMonth('Current')">Current Month</a></li>
+								<li><a href="" ng-click="monthlyExp.loadMonth('Prior')">Prior Month</a></li>
+							</ul>
+						</div> -->
+		  				<div class="panel panel-info" ng-show="reviewTab.isSet(2)">
+							<div class="panel-heading">
+								<h3 class="panel-title">Active Tag Expenses
+								</h3>
+							</div>
+							<div class="panel-body">
+								<h4>Expenses for Selected Tags: {{tags.expenseListTotal | currency}}</h4>
+							</div>
+							<table class="table">
+								<tr>
+									<th>Date</th>
+									<th>Paid To</th>
+									<th>Importance</th>
+									<th>Transaction Type</th>
+									<th>Amount</th>
+									<th>View Detail</th>
+								</tr>
+								<tr ng-repeat="expense in tags.expenseList | orderBy: '-importance'">
+									<td>{{expense.dateIncurred | date}}</td>
+									<td>{{expense.paidTo}}</td>
+									<td>{{expense.importance}}</td>
+									<td>{{expense.transactionType}}</td>
+									<td>{{expense.amount | currency}}</td>
+									<td><button type="button" class="btn btn-primary btn-sm" ng-click="monthlyExp.detail(expense._id)" data-toggle="modal" data-target="#monthlyExpEditModal"><span class="glyphicon glyphicon-info-sign"></span> Details</button></td>
+								</tr>
+							</table>
+						</div> <!-- ./panel -->
 					</div>
-
-					<div class="panel panel-info" ng-show="reviewTab.isSet(1)">
-						<div class="panel-heading">
-							<h3 class="panel-title">{{monthlyExp.headerString}} Expense Detail
-							</h3>
-						</div>
-						<div class="panel-body">
-							<h4>Total Monthly Expenses: {{monthlyExp.totalExpenses | currency}}</h4>
-						</div>
-						<table class="table">
-							<tr>
-								<th>Date</th>
-								<th>Paid To</th>
-								<th>Importance</th>
-								<th>Transaction Type</th>
-								<th>Amount</th>
-								<th>View Detail</th>
-							</tr>
-							<tr ng-repeat="expense in monthlyExp.expenses | orderBy: '-dateIncurred'">
-								<td>{{expense.dateIncurred | date}}</td>
-								<td>{{expense.paidTo}}</td>
-								<td>{{expense.importance}}</td>
-								<td>{{expense.transactionType}}</td>
-								<td>{{expense.amount | currency}}</td>
-								<td><button type="button" class="btn btn-primary btn-sm" ng-click="monthlyExp.detail(expense._id)" data-toggle="modal" data-target="#expEditModal">Details</button></td>
-							</tr>
-						</table>
-					</div> <!-- ./panel -->
-
-					<!-- =============================================================================== -->
-					<!-- Expense EDIT Modal -->
-					<!-- =============================================================================== -->
-					<!-- Modal for Expense Detail -->
-					<div class="modal fade" id="expEditModal" tab-index="-1" >
-						<div class="modal-dialog modal-lg">
-							<div class="modal-content">
-								<div class="modal-header">
-									<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-									<h4 class="modal-title">Expense Detail - {{monthlyExp.detailExpense.paidTo}} for {{monthlyExp.detailExpense.amount | currency}}</h4>
-								</div>
-								<div class="modal-body">
-									<form class="form-horizontal">
-										<div class="form-group">
-											<label for="editDateIncurred" class="col-sm-2 control-label">Date Incurred</label>
-											<div class="col-sm-3">
-												<input type="date" class="form-control" id="editDateIncurred" ng-model="monthlyExp.detailExpense.dateInput">
-											</div>
-											<label for="editTransactionType" class="col-sm-3 control-label">Transaction Type</label>
-											<div class="col-sm-4">
-												<select id="editTransactionType" class="form-control" ng-model="monthlyExp.detailExpense.transactionType">
-													<option>credit card</option>
-													<option>cash</option>
-													<option>bank transfer</option>	
-												</select>
-											</div>
-										</div>
-										<div class="form-group">
-											<label for="editPaidTo" class="col-sm-2 control-label">Paid To</label>
-											<div class="col-sm-5">
-												<input type="text" class="form-control" id="editPaidTo" ng-model="monthlyExp.detailExpense.paidTo">
-											</div>
-											<label for="editImportance" class="col-sm-2 control-label">Importance</label>
-											<div class="col-sm-3">
-												<select id="editImportance" class="form-control" ng-model="monthlyExp.detailExpense.importance">
-													<option>Critical</option>
-													<option>High</option>
-													<option>Medium</option>
-													<option>Low</option>
-												</select>
-											</div>
-										</div>
-										<div class="form-group">
-											<label for="editTags" class="col-sm-2 control-label">Tags</label>
-											<div class="col-sm-6">
-												<input type="text" class="form-control" id="editTags" ng-model="monthlyExp.detailExpense.tagsInput">
-											</div>
-											<label for="editAmount" class="col-sm-2 control-label">Amount</label>
-											<div class="col-sm-2">
-												<input type="text" class="form-control" id="editAmount" ng-model="monthlyExp.detailExpense.amount">
-											</div>
-										</div>
-										<div class="form-group">
-											<label for="editMemo" class="col-sm-2 control-label">Memo</label>
-											<div class="col-sm-10">
-												<textarea class="form-control" id="editMemo" ng-model="monthlyExp.detailExpense.memo"></textarea>
-											</div>
-										</div>
-									</form>
-								</div>
-								<div class="modal-footer">
-									<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-									<button type="button" class="btn btn-warning" ng-click="monthlyExp.editExpense(monthlyExp.detailExpense._id)" data-dismiss="modal">Edit</button>
-								</div>
-							</div><!-- /.modal-content -->
-						</div><!-- /.modal-dialog -->
-					</div> <!-- /.modal -->	
-
-					<!-- =============================================================================== -->
-
-  					
-  				</div> <!-- ./monthlyExp -->
+  				</div>
 
   			</div> <!-- ./reviewTab -->
   		</div> <!-- ./tab.isSet(2) -->

@@ -21,8 +21,8 @@
 		</div>
 	</div>
 </div>
-<!-- <button class="btn btn-warning btn-md pull-right" ng-show="expDetCtrl.show" ng-click="expDetCtrl.editExpense()">Edit</button> -->
-<button class="btn btn-danger btn-md pull-right" ng-show="expDetCtrl.show" data-toggle="modal" data-target="#myModal" type="button">Delete</button>
+<!-- <button class="btn btn-danger btn-md pull-right" ng-show="expDetCtrl.show" data-toggle="modal" data-target="#myModal" type="button"><span class="glyphicon glyphicon-trash"></span> Delete</button> -->
+<button type="button" class="btn btn-warning pull-right" ng-click="expDetCtrl.detail(expDetCtrl.expense._id)" data-toggle="modal" data-target="#expEditModal" ng-show="expDetCtrl.show"><span class="glyphicon glyphicon-info-sign"></span> Edit</button>
 
 <div class="modal fade" id="myModal" role="dialog" tab-index="-1" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -41,3 +41,82 @@
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+<!-- =============================================================================== -->
+<!-- Expense EDIT Modal -->
+<!-- =============================================================================== -->
+<!-- Modal for Expense Detail -->
+<div class="modal fade" id="expEditModal" tab-index="-1" >
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">Expense Detail - {{expDetCtrl.expense.paidTo}} for {{expDetCtrl.expense.amount | currency}}</h4>
+			</div>
+			<div class="modal-body">
+				<form class="form-horizontal">
+					<div class="form-group">
+						<label for="editDateIncurred" class="col-sm-2 control-label">Date Incurred</label>
+						<div class="col-sm-3">
+							<input type="date" class="form-control" id="editDateIncurred" ng-model="expDetCtrl.expense.dateInput">
+						</div>
+						<label for="editTransactionType" class="col-sm-3 control-label">Transaction Type</label>
+						<div class="col-sm-4">
+							<select id="editTransactionType" class="form-control" ng-model="expDetCtrl.expense.transactionType">
+								<option>credit card</option>
+								<option>cash</option>
+								<option>bank transfer</option>	
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="editPaidTo" class="col-sm-2 control-label">Paid To</label>
+						<div class="col-sm-5">
+							<input type="text" class="form-control" id="editPaidTo" ng-model="expDetCtrl.expense.paidTo">
+						</div>
+						<label for="editImportance" class="col-sm-2 control-label">Importance</label>
+						<div class="col-sm-3">
+							<select id="editImportance" class="form-control" ng-model="expDetCtrl.expense.importance">
+								<option>Critical</option>
+								<option>High</option>
+								<option>Medium</option>
+								<option>Low</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="editTags" class="col-sm-2 control-label">Tags</label>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" id="editTags" ng-model="expDetCtrl.expense.tagsInput">
+						</div>
+						<label for="editAmount" class="col-sm-2 control-label">Amount</label>
+						<div class="col-sm-2">
+							<input type="text" class="form-control" id="editAmount" ng-model="expDetCtrl.expense.amount">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="editMemo" class="col-sm-2 control-label">Memo</label>
+						<div class="col-sm-10">
+							<textarea class="form-control" id="editMemo" ng-model="expDetCtrl.expense.memo"></textarea>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-offset-2 col-sm-10">
+							<div class="checkbox">
+								<label>
+									<input type="checkbox" ng-model="expDetCtrl.allowDelete">Allow Delete
+								</label>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="expDetCtrl.deleteExpense(tracker)" ng-show="expDetCtrl.allowDelete"><span class="glyphicon glyphicon-trash"></span> Delete</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-warning" ng-click="expDetCtrl.editExpense(expDetCtrl.expense._id)" data-dismiss="modal"><span class="glyphicon glyphicon-upload"></span> Edit</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div> <!-- /.modal -->	
+
+<!-- =============================================================================== -->
