@@ -1,5 +1,5 @@
 (function () {
-	var app = angular.module('expTracker', ['angularMoment', 'tableSort']);
+	var app = angular.module('expTracker', ['angularMoment', 'tableSort','ngTagsInput']);
 	var tracker = {};
 
 	app.controller('TrackerController', ['$http', '$log', function ($http,$log) {
