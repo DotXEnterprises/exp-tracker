@@ -354,18 +354,20 @@
 			templateUrl: "/templates/expense-form.html",
 			controller: function ($http,$log) {
 				this.expense = {};
-				this.expense.tagsInput = '';
+				this.expense.tags = [];
+				this.expenses.ngTags = [];
 
 				// $log.log(this.today)
 
 				this.addExpense = function (tracker) {
 					this.expense.dateEntered = Date.now();
 					this.expense.amount = Number(this.expense.amount);
-					this.expense.tags = this.expense.tagsInput.split(' ');
-					while(this.expense.tags.indexOf('') >= 0) {
-						// element.tags.splice(element.tags.indexOf(''),1);
-						this.expense.tags.splice(this.expense.tags.indexOf(''),1);
+
+					// convert ngTags into legacy tags
+					for (var i = 0; i < ngTags.length; i++) {
+						this.expense.tags.push(ngTags[i].text);
 					};
+					
 					this.expense.entrySource = 'web-app';
 
 					// send the data to the server
