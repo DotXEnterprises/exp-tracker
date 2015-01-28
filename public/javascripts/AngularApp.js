@@ -261,6 +261,10 @@
 					});
 				};
 
+				this.loadTags = function (query) {
+					return $http.get('/expenses/ngtaglist?text=' + query)
+				}
+
 				monthly.refresh();
 			},
 			controllerAs: 'monthlyExp'
@@ -339,6 +343,10 @@
 					});
 				};
 
+				this.loadTags = function (query) {
+					return $http.get('/expenses/ngtaglist?text=' + query)
+				}
+
 			},
 			controllerAs: "expDetCtrl"
 		};
@@ -382,6 +390,10 @@
 					// reset form
 					this.expense = {};
 				};
+
+				this.loadTags = function (query) {
+					return $http.get('/expenses/ngtaglist?text=' + query)
+				}
 			},
 			controllerAs: "expenseCtrl"
 		};

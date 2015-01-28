@@ -27,7 +27,9 @@
 			</select>
 		</fieldset>
 		<fieldset class="form-group">
-			<tags-input ng-model="expenseCtrl.expense.ngTags"></tags-input>
+			<tags-input ng-model="expenseCtrl.expense.ngTags">
+				<auto-complete source="expenseCtrl.loadTags($query)"></auto-complete>
+			</tags-input>
 		</fieldset>
 		<fieldset class="form-group"> 					
 			<textarea ng-model="expenseCtrl.expense.memo" class="form-control" placeholder="Expense Memo Area..." title="Memo">
