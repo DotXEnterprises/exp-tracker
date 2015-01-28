@@ -102,6 +102,59 @@ router.get('/expenses/taglist', function (req, res, next) {
 	});
 });
 
+/* GET request to /expenses/ngtaglist */
+/* Generates a list of ngTag objects on server side and accepts a query string */
+/* That has the user input - used for autocomplete of ngTags */
+router.get('/expenses/ngtaglist', function (req, res, next) {
+	var ngTagList = []
+	  , ngTag = {}
+	  , taglist = []
+	  , textEntered = req.query.text
+
+	// recursive function to add to ngTagList array
+	function makeNgTagList (legacyTagList) {
+		if (!legacyTagList.length) { return res.json(ngTagList) };
+		var legacyTag = legacyTagList.pop()
+
+		if (legacyTag.search(textEntered) >= 0) {
+			ngTagList.push( { text : legacyTag } )
+		};
+		makeNgTagList(legacyTagList)
+	}
+
+
+	// Copied code from GET at /expenses/taglist
+
+	Expense.find(function (err, expenses) {
+		if (err) { return next(err); };
+
+		expenses.forEach(function (element, index, array) {
+			element.tags.forEach(function (element, index, array) {
+				if (taglist.indexOf(element) < 0 && element != '') {
+					taglist.push(element);
+				};
+			});
+		});
+		
+		taglist.sort()
+		taglist.reverse()
+
+		// end of copied code section
+
+		// want a smart autocomplete list to pull up relevant tags
+		makeNgTagList(taglist)
+
+		// async causing problems... need to use recursion
+		/*taglist.forEach(function (element, index, array) {
+			if (element.search(textEntered) >= 0) {
+				ngTag.text = element;
+				ngTagList.push(ngTag);
+			};
+		});*/
+
+		// res.json(ngTagList);
+	});
+});
 
 /* GET for a single expense at /expenses/:expense */
 router.get('/expenses/:expense', function (req, res) {

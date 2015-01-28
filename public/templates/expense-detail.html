@@ -86,7 +86,9 @@
 					<div class="form-group">
 						<label for="editTags" class="col-sm-2 control-label">Tags</label>
 						<div class="col-sm-6">
-							<input type="text" class="form-control" id="editTags" ng-model="expDetCtrl.expense.tagsInput">
+							<tags-input ng-model="expDetCtrl.expense.ngTags">
+								<auto-complete source="expDetCtrl.loadTags($query)"></auto-complete>
+							</tags-input>
 						</div>
 						<label for="editAmount" class="col-sm-2 control-label">Amount</label>
 						<div class="col-sm-2">
