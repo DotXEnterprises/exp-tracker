@@ -217,7 +217,7 @@
 					$log.log(id);
 					$http.get('/expenses/' + id).success(function (data) {
 						monthly.detailExpense = data;
-						monthly.detailExpense.tagsInput = '';
+						// monthly.detailExpense.tagsInput = '';
 						monthly.detailExpense.dateInput =  moment(monthly.detailExpense.dateIncurred).toDate();
 						monthly.detailExpense.tags.forEach(function (element, index, array) {
 							monthly.detailExpense.tagsInput += (element + ' ');
@@ -242,12 +242,12 @@
 					$log.log('Editing record: ' + id);
 					
 					// transform dateIncurred and tags from form values
-					monthly.detailExpense.tags = monthly.detailExpense.tagsInput.split(' ');
-					while(monthly.detailExpense.tags.indexOf('') >= 0) {
-						// element.tags.splice(element.tags.indexOf(''),1);
-						monthly.detailExpense.tags.splice(monthly.detailExpense.tags.indexOf(''),1);
+					// convert ngTags into legacy tags
+					monthly.detailExpense.tags = [ ];
+					for (var i = 0; i < monthly.detailExpense.ngTags.length; i++) {
+						monthly.detailExpense.tags.push(monthly.detailExpense.ngTags[i].text);
 					};
-					// monthly.detailExpense.tags.splice(monthly.detailExpense.tags.indexOf(''),1);
+
 					$log.log(monthly.detailExpense.tags);
 					monthly.detailExpense.dateIncurred = moment(monthly.detailExpense.dateInput).toDate();
 					monthly.detailExpense.amount = Number(monthly.detailExpense.amount);
@@ -312,11 +312,7 @@
 					$log.log(id);
 					$http.get('/expenses/' + id).success(function (data) {
 						expDetCtrl.expense = data;
-						expDetCtrl.expense.tagsInput = '';
 						expDetCtrl.expense.dateInput =  moment(expDetCtrl.expense.dateIncurred).toDate();
-						expDetCtrl.expense.tags.forEach(function (element, index, array) {
-							expDetCtrl.expense.tagsInput += (element + ' ');
-						});
 						expDetCtrl.expense.allowDelete = 0;
 						$log.log(expDetCtrl.expense);
 					});
@@ -326,12 +322,12 @@
 					$log.log('Editing record: ' + id);
 					
 					// transform dateIncurred and tags from form values
-					this.expense.tags = this.expense.tagsInput.split(' ');
-					while(this.expense.tags.indexOf('') >= 0) {
-						// element.tags.splice(element.tags.indexOf(''),1);
-						this.expense.tags.splice(this.expense.tags.indexOf(''),1);
+					// convet ngTags into legacy tags
+					expDetCtrl.expense.tags = [ ];
+					for (var i = 0; i < expDetCtrl.expense.ngTags.length; i++) {
+						expDetCtrl.expense.tags.push(expDetCtrl.expense.ngTags[i].text)
 					};
-					// this.expense.tags.splice(this.expense.tags.indexOf(''),1);
+
 					$log.log(this.expense.tags);
 					this.expense.dateIncurred = moment(this.expense.dateInput).toDate();
 					this.expense.amount = Number(this.expense.amount);
@@ -355,7 +351,7 @@
 			controller: function ($http,$log) {
 				this.expense = {};
 				this.expense.tags = [];
-				this.expenses.ngTags = [];
+				this.expense.ngTags = [];
 
 				// $log.log(this.today)
 
@@ -364,8 +360,8 @@
 					this.expense.amount = Number(this.expense.amount);
 
 					// convert ngTags into legacy tags
-					for (var i = 0; i < ngTags.length; i++) {
-						this.expense.tags.push(ngTags[i].text);
+					for (var i = 0; i < this.expense.ngTags.length; i++) {
+						this.expense.tags.push(this.expense.ngTags[i].text);
 					};
 					
 					this.expense.entrySource = 'web-app';
@@ -380,6 +376,8 @@
 							$log.log(tracker);
 						});
 					});
+
+
 
 					// reset form
 					this.expense = {};

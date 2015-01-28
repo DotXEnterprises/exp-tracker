@@ -90,7 +90,8 @@
 					<div class="form-group">
 						<label for="editTags" class="col-sm-2 control-label">Tags</label>
 						<div class="col-sm-6">
-							<input type="text" class="form-control" id="editTags" ng-model="monthlyExp.detailExpense.tagsInput">
+							<!-- <input type="text" class="form-control" id="editTags" ng-model="monthlyExp.detailExpense.tagsInput"> -->
+							<tags-input ng-model="monthlyExp.detailExpense.ngTags"></tags-input>
 						</div>
 						<label for="editAmount" class="col-sm-2 control-label">Amount</label>
 						<div class="col-sm-2">
