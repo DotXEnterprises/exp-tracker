@@ -358,7 +358,6 @@
 			templateUrl: "/templates/expense-form.html",
 			controller: function ($http,$log) {
 				this.expense = {};
-				this.expense.tags = [];
 				this.expense.ngTags = [];
 
 				// $log.log(this.today)
@@ -366,6 +365,7 @@
 				this.addExpense = function (tracker) {
 					this.expense.dateEntered = Date.now();
 					this.expense.amount = Number(this.expense.amount);
+					this.expense.tags = [];
 
 					// convert ngTags into legacy tags
 					for (var i = 0; i < this.expense.ngTags.length; i++) {
