@@ -160,8 +160,28 @@
 				});
 			});
 		};
-
 	}]);
+
+	/* Did not put above controller into this directive as <monthly-expense-detail>
+	 * references it as well, so I keep the controller reference in index.ejs */
+	app.directive('tagExpense', function () {
+		return {
+			restrict: 'E',
+			templateUrl: '/templates/tag-expense.html'
+		};
+	});
+
+	app.directive('expenseBudget', function () {
+		return { 
+			restrict: 'E',
+			templateUrl: '/templates/expense-budget.html',
+			controller: function ($http, $log) {
+				var expBudgetCtrl = this;
+				expBudgetCtrl.title = 'Budget Tab - Need to complete'
+			},
+			controllerAs: 'expBudgetCtrl'
+		};
+	});
 
 	app.directive('monthlyExpenseDetail', function () {
 		return {

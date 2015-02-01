@@ -1,0 +1,37 @@
+<div class="btn-group-vertical col-xs-2" role="group" data-toggle="buttons" ng-show="reviewTab.isSet(2)">
+	<label ng-repeat="tag in tags.tagList" class="btn btn-info" ng-class="{ active:tag.activeTag }" ng-click="tags.setStatus(tag.name, true)">
+		<input type="checkbox" autocomplete="off" ng-model="tag.status" > {{tag.name}}
+	</label>
+</div>
+<div class="col-xs-10">
+
+<!-- Set up the panel below to show important expense info -->
+
+	<div class="panel panel-info" ng-show="reviewTab.isSet(2)">
+	<div class="panel-heading">
+		<h3 class="panel-title">Active Tag Expenses
+		</h3>
+	</div>
+	<div class="panel-body">
+		<h4>Expenses for Selected Tags: {{tags.expenseListTotal | currency}}</h4>
+	</div>
+	<table class="table" ts-wrapper>
+		<tr>
+			<th ts-criteria="dateIncurred">Date</th>
+			<th ts-criteria="paidTo|lowercase">Paid To</th>
+			<th ts-criteria="importance|parseImportance" ts-default="descending">Importance</th>
+			<th ts-criteria="transactionType|lowercase">Transaction Type</th>
+			<th ts-criteria="amount|parseFloat">Amount</th>
+			<th>View Detail</th>
+		</tr>
+		<tr ng-repeat="expense in tags.expenseList track by expense._id" ts-repeat>
+			<td>{{expense.dateIncurred | date}}</td>
+			<td>{{expense.paidTo}}</td>
+			<td>{{expense.importance}}</td>
+			<td>{{expense.transactionType}}</td>
+			<td>{{expense.amount | currency}}</td>
+			<td><button type="button" class="btn btn-primary btn-sm" ng-click="monthlyExp.detail(expense._id)" data-toggle="modal" data-target="#monthlyExpEditModal"><span class="glyphicon glyphicon-info-sign"></span> Details</button></td>
+		</tr>
+	</table>
+</div> <!-- ./panel -->
+</div>
