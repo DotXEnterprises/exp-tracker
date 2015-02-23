@@ -20,13 +20,16 @@
   	</header>
   		
   	<div ng-controller="TabController as tab">
-  		<!-- Setup a tabbed UI with 2 tabs for adding and reveiwing expenses -->
+  		<!-- Setup a tabbed UI with 3 tabs for adding, reveiwing expenses, and adding credits -->
   		<ul class="nav nav-pills">
   			<li ng-class="{ active:tab.isSet(1) }">
   				<a href="" ng-click="tab.setTab(1)">Add Expenses</a>
   			</li>
   			<li ng-class="{ active:tab.isSet(2) }">
   				<a href="" ng-click="tab.setTab(2)">Review Expenses</a>
+  			</li>
+  			<li ng-class="{ active:tab.isSet(3) }">
+  				<a href="" ng-click="tab.setTab(3)">Add Credits</a>
   			</li>
   		</ul> <!-- ./nav -->
 
@@ -116,6 +119,17 @@
 
   			</div> <!-- ./reviewTab -->
   		</div> <!-- ./tab.isSet(2) -->
+  		<!-- Add Credits Tab -->
+  			
+  		<div ng-show="tab.isSet(3)">
+  			<h3>Add a Credit</h3>
+	  		<div class="row">
+	  			<credit-detail></credit-detail>
+	  		</div> <!-- ./row -->
+	  		<div class="row">
+	  			<credit-form></credit-form>
+	  		</div>	<!-- ./row -->
+  		</div> <!-- ./tab.isSet(3) -->
   	</div> <!-- ./tab -->
   	<!-- Placed at the end of the document so the pages load faster -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
