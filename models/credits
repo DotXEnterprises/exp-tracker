@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 
-var CreditSchema = new mongoose.Schema( { paidFrom: String
+var CreditsSchema = new mongoose.Schema( { paidFrom: String
                                          , tags: Array
                                          , amount: Number
                                          , memo: String
@@ -11,4 +11,4 @@ var CreditSchema = new mongoose.Schema( { paidFrom: String
                                          , ngTags: Array
 });
 
-mongoose.model('Credit', CreditSchema);
+mongoose.model('Credit', CreditsSchema);
