@@ -1,0 +1,14 @@
+var mongoose = require('mongoose');
+
+var CreditSchema = new mongoose.Schema( { paidFrom: String
+                                         , tags: Array
+                                         , amount: Number
+                                         , memo: String
+                                         , dateIncurred: Date
+                                         , dateEntered: Date
+                                         , entrySource: String
+                                         , transactionType: String
+                                         , ngTags: Array
+});
+
+mongoose.model('Credit', CreditSchema);
