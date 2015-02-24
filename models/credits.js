@@ -11,4 +11,4 @@ var CreditsSchema = new mongoose.Schema( { paidFrom: String
                                          , ngTags: Array
 });
 
-mongoose.model('Credit', CreditsSchema);
+mongoose.model('Credits', CreditsSchema);
