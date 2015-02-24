@@ -8,7 +8,8 @@ var bodyParser = require('body-parser');
 //include files for mongodb and mongoose
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost:27017/ExpTracker');
-require('./models/expenses')
+require('./models/expenses');
+require('./models/credits')
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
